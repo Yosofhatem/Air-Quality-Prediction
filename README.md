@@ -16,7 +16,7 @@ The model was trained using the dataset, evaluated, and fine-tuned to achieve op
 6. [Feature Importance Analysis](#feature-importance-analysis)
 7. [Visualizing Weights and Biases](#visualizing-weights-and-biases)
 8. [Hyperparameter Tuning](#hyperparameter-tuning)
-
+9. [Streamlit Deployment](#streamlit-deployment)
 ---
 
 # Data Preprocessing
@@ -437,4 +437,133 @@ Best MSE: 0.128878663132922
 The hyperparameter search resulted in a combination that minimized the MSE, leading to better model performance.
 
 ---
+
+## Streamlit Deployment
+
+## Overview
+This app predicts the Carbon Monoxide (CO) concentration in the air based on various environmental parameters such as temperature, humidity, and pollutant concentrations. It uses a pre-trained machine learning model to generate predictions and classifies the results into different health risk categories.
+
+## Features
+- **Interactive Input**: Users can enter values for environmental features like temperature, humidity, and pollutant concentrations.
+- **CO Prediction**: Predicts CO levels in mg/m³ based on user inputs.
+- **Health Risk Classification**: Categorizes predicted CO levels into health risk levels (Normal, Cautionary, Moderate, Hazardous, Dangerous, Life-Threatening).
+- **Real-time Feedback**: Provides actionable recommendations based on the CO level category.
+
+## Deployment
+
+### Requirements
+- **Python**: Version 3.7 or above
+- **Libraries**:
+  - TensorFlow
+  - Pandas
+  - NumPy
+  - Streamlit
+  - Joblib
+
+Install the required libraries using the following command:
+```bash
+pip install -r requirements.txt
+```
+
+Contents of `requirements.txt`:
+```text
+tensorflow
+pandas
+numpy
+streamlit
+joblib
+```
+
+### App Files
+- `model.keras`: Pre-trained Keras model for CO prediction.
+- `scaler.pkl`: Pre-fitted scaler for preprocessing input data.
+- `app.py`: Main Streamlit application file.
+
+### How to Run the App
+1. Clone the repository or download the app files.
+2. Ensure that the required dependencies are installed using `pip install -r requirements.txt`.
+3. Place the pre-trained model (`model.keras`) and scaler file (`scaler.pkl`) in the same directory as `app.py`.
+4. Run the following command in your terminal:
+   ```bash
+   streamlit run app.py
+   ```
+5. Open the app in your default web browser or use the provided local URL (e.g., http://localhost:8501).
+
+## Usage
+1. Open the app in your browser.
+2. Enter values for the following environmental parameters:
+   - Temperature (T)
+   - Relative Humidity (RH)
+   - NO2 Concentration (NO2(GT))
+   - CO Concentration (PT08.S1(CO))
+   - NMHC Concentration (NMHC(GT))
+   - Benzene Concentration (C6H6(GT))
+   - NOx Concentration (NOx(GT))
+   - Additional pollutants and parameters
+3. Click **Make Prediction**.
+4. View the predicted CO level (in mg/m³), its health risk classification, and the corresponding health message.
+
+## Health Risk Categories
+- **Normal**: CO levels are within safe limits. No immediate action required.
+- **Cautionary**: Slightly elevated CO levels. Monitor the air quality.
+- **Moderate**: Moderate CO levels. Prolonged exposure could be harmful.
+- **Hazardous**: Hazardous CO levels detected. Immediate action required.
+- **Dangerous**: Dangerous CO levels detected. Evacuate and seek medical attention.
+- **Life-Threatening**: Life-threatening CO levels detected. Immediate evacuation required.
+
+## Error Handling
+- Displays an error if `model.keras` or `scaler.pkl` is not found.
+- Alerts the user if there is an issue during prediction.
+
+## Code Explanation
+### Loading the Model and Scaler
+The app loads the pre-trained machine learning model and the scaler:
+```python
+scaler = joblib.load('scaler.pkl')  # Load the pre-fitted scaler
+model = load_model('model.keras')  # Load the pre-trained Keras model
+```
+
+### User Input and Data Preprocessing
+Inputs from the user are collected via Streamlit’s `number_input` widget. The data is then scaled:
+```python
+inputs = {}
+for col in columns:
+    inputs[col] = st.number_input(f"Enter value for {col}", value=0.0000, format="%.4f")
+df_test = pd.DataFrame([inputs])
+df_scaled = scaler.transform(df_test)  # Scale the input data
+```
+
+### Prediction and Classification
+The scaled data is used to predict the CO level. Predictions are clipped to predefined limits, and the CO level is categorized:
+```python
+predictions = model.predict(df_scaled)
+predicted_value = predictions[0][0]
+limited_prediction = np.clip(predicted_value, MIN_CO, MAX_CO)
+co_category = classify_co_level(limited_prediction)
+```
+
+### Displaying Results
+The app displays the prediction and corresponding health messages based on the CO category:
+```python
+st.write(f"Prediction For CO(GT): {limited_prediction:.6f} mg/m³")
+st.write(f"CO Level Category: {co_category}")
+if co_category == "Normal":
+    st.success("The CO level is within safe limits. No immediate action required. 🛡️")
+elif co_category == "Cautionary":
+    st.warning("CO levels are slightly elevated. Monitor the air quality. ⚠️")
+# Additional cases omitted for brevity
+```
+
+## Example Interaction
+- Enter realistic values for the environmental parameters.
+- Click **Make Prediction** to receive:
+  - Predicted CO level (mg/m³).
+  - Health risk category.
+  - Recommended actions based on the category.
+
+## Future Enhancements
+- Input validation to ensure realistic and consistent user inputs.
+- Display model version or training date for transparency.
+- Unit conversion options for temperature and pollutant measurements.
+- Progress indicators for better user experience during computation.
 
