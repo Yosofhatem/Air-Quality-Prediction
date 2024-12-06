@@ -11,7 +11,7 @@ The dataset used for this analysis can be found [here on UCI](https://archive.ic
 
 Below is an image explaining the columns used in the dataset.
 
-![Alt Text](assets/Columns_Explanation.jpeg)
+![Column Explanation](assets/Columns_Explanation.jpeg)
 
 ---
 
@@ -577,4 +577,12 @@ elif co_category == "Cautionary":
 - Display model version or training date for transparency.
 - Unit conversion options for temperature and pollutant measurements.
 - Progress indicators for better user experience during computation.
+
+---
+
+## Streamlit App in Action
+
+Here’s a screenshot of the Streamlit app in action:
+
+![Streamlit App Screenshot](assets/streamlit-screenshot.png)
 
