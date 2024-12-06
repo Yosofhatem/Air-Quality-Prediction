@@ -586,5 +586,5 @@ elif co_category == "Cautionary":
 
 Here’s a screenshot of the Streamlit app in action:
 
-![Streamlit App Screenshot](assets/streamlit-screenshot.png)
+![Streamlit App Screenshot](assets/streamlit-screenshot.jpg)
 
