@@ -1,6 +1,6 @@
 # Air Quality Prediction using Neural Networks
 
-This project is focused on predicting air quality based on environmental factors using a neural network model. The goal is to estimate pollution levels (e.g., CO(GT)) from various sensors and environmental parameters such as temperature, humidity, and other pollutants.
+This project is focused on predicting air quality based on environmental factors using a neural network model. The goal is to estimate pollution levels **CO(GT)** from various sensors and environmental parameters such as temperature, humidity, and other pollutants.
 
 The model was trained using the dataset, evaluated, and fine-tuned to achieve optimal performance. Various techniques, such as feature importance analysis and hyperparameter tuning, were used to improve the model's accuracy.
 
