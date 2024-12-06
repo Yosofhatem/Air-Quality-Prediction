@@ -11,7 +11,7 @@ The dataset used for this analysis can be found [here on UCI](https://archive.ic
 
 Below is an image explaining the columns used in the dataset.
 
-![Alt Text](assets/Columns_Explanation.png)
+![Alt Text](assets/Columns_Explanation.jpeg)
 
 ---
 
