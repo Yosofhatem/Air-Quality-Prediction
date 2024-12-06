@@ -4,6 +4,9 @@ This project is focused on predicting air quality based on environmental factors
 
 The model was trained using the dataset, evaluated, and fine-tuned to achieve optimal performance. Various techniques, such as feature importance analysis and hyperparameter tuning, were used to improve the model's accuracy.
 
+## Dataset
+The dataset used for this analysis can be found [here on UCI](https://archive.ics.uci.edu/dataset/360/air+quality).
+
 ---
 
 ## Table of Contents
