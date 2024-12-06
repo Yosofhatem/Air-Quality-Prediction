@@ -299,7 +299,9 @@ for lr in learning_rates:
     # Code continues for each hyperparameter combination...
 
 ```
+
 **Best Hyperparameters:**
+
 ```python
 lr=0.001, dr1=0.2, dr2=0.3, n1=128, n2=64, batch_size=32, epochs=50
 Best MSE: 0.128878663132922
@@ -308,5 +310,6 @@ Best MSE: 0.128878663132922
 **Conclusion from Hyperparameter Tuning:**
 
 The hyperparameter search resulted in a combination that minimized the MSE, leading to better model performance.
+
 ---
 
