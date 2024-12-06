@@ -584,7 +584,9 @@ elif co_category == "Cautionary":
 
 ## Streamlit App in Action
 
-Here’s a screenshot of the Streamlit app in action:
+Here’s a screenshot of the Streamlit app in action of **CO level that is Safe** , alongside another screenshot showing a different view of **Hazardous CO level**:
 
-![Streamlit App Screenshot](assets/streamlit-screenshot.jpg)
-
+<div style="display: flex; justify-content: space-around;">
+    <img src="assets/streamlit-screenshot.png" alt="Streamlit App Screenshot" width="48%" />
+    <img src="assets/streamlit-screenshot1.jpg" alt="Another Screenshot" width="48%" />
+</div>
