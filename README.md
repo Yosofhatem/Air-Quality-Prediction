@@ -490,15 +490,15 @@ joblib
 ### App Files
 - `model.keras`: Pre-trained Keras model for CO prediction.
 - `scaler.pkl`: Pre-fitted scaler for preprocessing input data.
-- `app.py`: Main Streamlit application file.
+- `streamlit_app.py`: Main Streamlit application file.
 
 ### How to Run the App
 1. Clone the repository or download the app files.
 2. Ensure that the required dependencies are installed using `pip install -r requirements.txt`.
-3. Place the pre-trained model (`model.keras`) and scaler file (`scaler.pkl`) in the same directory as `app.py`.
+3. Place the pre-trained model (`model.keras`) and scaler file (`scaler.pkl`) in the same directory as `streamlit_app.py`.
 4. Run the following command in your terminal:
    ```bash
-   streamlit run app.py
+   streamlit run streamlit_app.py
    ```
 5. Open the app in your default web browser or use the provided local URL (e.g., http://localhost:8501).
 
