@@ -7,6 +7,12 @@ The model was trained using the dataset, evaluated, and fine-tuned to achieve op
 ## Dataset
 The dataset used for this analysis can be found [here on UCI](https://archive.ics.uci.edu/dataset/360/air+quality).
 
+## Column Explanation
+
+Below is an image explaining the columns used in the dataset.
+
+![Alt Text](assets/Columns_Explanation.png)
+
 ---
 
 ## Table of Contents
