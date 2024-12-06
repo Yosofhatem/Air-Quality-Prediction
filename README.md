@@ -52,27 +52,9 @@ df_scaled = scaler.fit_transform(df)
 
 ## Model Selection
 
-### 1. **Decision Tree Regressor**
+### 1. **Neural Network Model**
 
-A Decision Tree Regressor was chosen as one of the models for this task. It’s a popular choice for regression tasks, particularly when dealing with tabular data with non-linear relationships.
-
-```python
-model = DecisionTreeRegressor()
-model.fit(X_train, y_train)
-```
-
-#### **Feature Importance - Decision Tree**
-
-The **Decision Tree Regressor** provides feature importance scores, which help us identify the most influential features in predicting air quality. Here is an example of the feature importance results:
-
-```python
-feature_importances = model.feature_importances_
-```
-The higher the importance score, the more the feature contributes to the prediction.
-
-### 2. **Neural Network Model**
-
-We also experimented with a Neural Network model using TensorFlow’s Keras API. The architecture consists of:
+We used a **Neural Network** model to predict air quality. This model was implemented using TensorFlow’s Keras API. The architecture consists of:
 - **Input Layer**: The input layer corresponds to the features (scaled data).
 - **Dense Layers**: Multiple dense layers are used for learning non-linear patterns.
 - **Dropout**: Dropout layers are used for regularization to prevent overfitting.
@@ -86,7 +68,7 @@ model = Sequential([
 ])
 ```
 
-### 3. **Model Compilation & Training**
+### 2. **Model Compilation & Training**
 
 For the neural network, we used the Adam optimizer and Mean Squared Error as the loss function for regression.
 
@@ -95,7 +77,7 @@ model.compile(optimizer=Adam(), loss='mse')
 model.fit(X_train, y_train, epochs=50, batch_size=32)
 ```
 
-### 4. **Early Stopping**
+### 3. **Early Stopping**
 
 To avoid overfitting, we employed early stopping during training. This stops the training process if the validation loss does not improve after a certain number of epochs.
 
@@ -103,9 +85,25 @@ To avoid overfitting, we employed early stopping during training. This stops the
 early_stopping = EarlyStopping(monitor='val_loss', patience=10)
 ```
 
-## Feature Importance - Permutation Method
+## Feature Importance
 
-In addition to the Decision Tree feature importance, we used the **Permutation Importance** method to assess the importance of each feature. This method shuffles a feature’s values and checks the resulting decrease in model performance.
+Although the model used for predictions is the Neural Network, we computed **Feature Importance** using both **Decision Tree Regressor** and **Permutation Importance**.
+
+### 1. **Feature Importance - Decision Tree**
+
+A **Decision Tree Regressor** was used to calculate feature importance. The Decision Tree provides a ranking of features based on how they contribute to the model’s predictions.
+
+```python
+model_dt = DecisionTreeRegressor()
+model_dt.fit(X_train, y_train)
+feature_importances = model_dt.feature_importances_
+```
+
+The higher the importance score, the more the feature contributes to the prediction.
+
+### 2. **Feature Importance - Permutation Method**
+
+In addition to Decision Tree feature importance, we used the **Permutation Importance** method to assess the importance of each feature. This method shuffles a feature’s values and checks the resulting decrease in model performance.
 
 ```python
 perm_importance = permutation_importance(model, X_test, y_test)
@@ -115,7 +113,7 @@ This method helps compare how much each feature contributes to the model’s pre
 
 ## Model Evaluation
 
-After training the models, we evaluated their performance using the following metrics:
+After training the model, we evaluated its performance using the following metrics:
 - **Mean Squared Error (MSE)**: Measures the average of the squares of the errors.
 - **Mean Absolute Error (MAE)**: Measures the average of the absolute errors.
 - **R-Squared (R²)**: Indicates how well the model explains the variance in the data.
@@ -128,16 +126,15 @@ r2 = r2_score(y_test, predictions)
 
 ### **Evaluation Results**
 
-The performance evaluation results for Neural Network model is as follows:
+The performance evaluation results are as follows:
 
 - **Neural Network Model**:
     - MSE: 0.1279
     - MAE: 0.2323
     - R²: 0.90
 
-
-
 ## Conclusion
 
-This project demonstrates how to predict air quality based on sensor readings using machine learning models. The combination of feature scaling, data imputation, and advanced models like neural networks allows for accurate predictions of air quality metrics.
+This project demonstrates how to predict air quality based on sensor readings using a Neural Network. Feature importance was computed using both the **Decision Tree Regressor** and **Permutation Importance**, providing insights into which features most influence the model's predictions.
 
+The model performed well, with an R² score of 0.89, indicating that it explains 89% of the variance in the air quality data. Future work can involve fine-tuning the model, experimenting with more advanced architectures, or utilizing cross-validation techniques to improve performance.
