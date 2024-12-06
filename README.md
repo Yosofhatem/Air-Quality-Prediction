@@ -19,18 +19,143 @@ The model was trained using the dataset, evaluated, and fine-tuned to achieve op
 
 ---
 
-## Data Preprocessing
+# Data Preprocessing
 
-Before training the model, the data is preprocessed by normalizing the features and splitting the data into training and testing sets.
+Before training the model, the data is preprocessed by performing exploratory data analysis (EDA), handling missing values, handling duplicates, converting data types, and managing outliers. Here are the detailed steps:
+
+## Exploratory Data Analysis (EDA)
 
 ```python
-# Normalize the features
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+# Drop unnecessary columns 'Unnamed: 15' and 'Unnamed: 16' from the DataFrame
+df.drop(['Date', 'Time', 'Unnamed: 15', 'Unnamed: 16'], axis=1, inplace=True)
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+# Display the first 5 rows of the DataFrame
+df.head()
+
+# Check the dimensions of the DataFrame
+df.shape
+
+# Display summary information about the DataFrame, including column data types and non-null counts
+df.info()
+
+# Get summary statistics
+df.describe().T
 ```
+
+**Explanation**:
+- The unnecessary columns ('Unnamed: 15', 'Unnamed: 16', Date, and Time) are removed.
+- Summary statistics, non-null counts, and data types are explored for the remaining columns.
+
+## Handling Null Values
+
+```python
+# Check for missing values
+df.isnull().sum()
+
+# Dropping rows with missing values (NaN)
+df.dropna(axis=0, inplace=True)
+```
+
+## Handling Duplicate Values
+
+```python
+# Count the number of duplicate rows in the DataFrame
+df.duplicated().sum()
+
+# Remove duplicate rows from the DataFrame
+df.drop_duplicates(inplace=True, ignore_index=True)
+```
+
+## Convert Data Types
+
+```python
+# Convert columns with commas as decimals to float type
+columns_to_convert = ['CO(GT)', 'C6H6(GT)', 'T', 'RH', 'AH']
+
+for column_to_convert in columns_to_convert:
+    # Replace commas with dots and then convert to float
+    df[column_to_convert] = df[column_to_convert].str.replace(',', '.').astype(float)
+
+# Display summary information about the DataFrame, including column data types and non-null counts
+df.info()
+```
+
+## Handling Malignant Null Values
+
+```python
+# Iterate over each column and replace -200.0 with NaN
+for col in df.columns:
+    df[col] = df[col].replace(-200.0, np.nan)
+
+# Check for missing values again
+df.isnull().sum()
+
+# Calculate the percentage of missing values for each column
+df.isnull().sum() / len(df) * 100
+```
+
+## Handle Missing Values Using KNN Imputation
+
+```python
+from sklearn.impute import KNNImputer
+
+# Handle missing values using KNN imputation
+knn_imputer = KNNImputer(n_neighbors=5)
+df_imputed = pd.DataFrame(knn_imputer.fit_transform(df), columns=df.columns)
+
+# Display summary information about the DataFrame
+df_imputed.info()
+```
+
+## Show Outliers Using Boxplot
+
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a boxplot to detect outliers
+plt.figure(figsize=(20, 8))
+sns.boxplot(data=df_imputed)
+
+# Add title
+plt.title("Boxplot for Outliers", fontsize=16)
+
+# Display the plot
+plt.show()
+```
+
+## Handling Outliers
+
+```python
+# Calculate Z-scores for all columns
+z_scores = (df_imputed - df_imputed.mean()) / df_imputed.std()
+
+# Set a threshold for Z-scores (3)
+threshold = 3
+
+# Filter out rows where any column has a Z-score greater than the threshold
+df_no_outliers = df_imputed[(z_scores.abs() <= threshold).all(axis=1)]
+
+df_imputed = df_no_outliers
+
+# Create a boxplot again after removing outliers
+plt.figure(figsize=(20, 8))
+sns.boxplot(data=df_imputed)
+
+# Add title
+plt.title("Boxplot for Outliers", fontsize=16)
+
+# Display the plot
+plt.show()
+```
+
+## Final Preprocessed Data
+
+```python
+# After handling missing values and outliers, display final data shape
+df_imputed.shape
+```
+
 
 **Conclusion:**
 
