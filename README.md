@@ -128,22 +128,16 @@ r2 = r2_score(y_test, predictions)
 
 ### **Evaluation Results**
 
-The performance evaluation results for both models are as follows:
-
-- **Decision Tree Regressor**: 
-    - MSE: 0.0234
-    - MAE: 0.112
-    - R²: 0.87
+The performance evaluation results for Neural Network model is as follows:
 
 - **Neural Network Model**:
-    - MSE: 0.0215
-    - MAE: 0.097
-    - R²: 0.89
+    - MSE: 0.1279
+    - MAE: 0.2323
+    - R²: 0.90
 
-The neural network slightly outperformed the Decision Tree Regressor in terms of MSE, MAE, and R².
+
 
 ## Conclusion
 
 This project demonstrates how to predict air quality based on sensor readings using machine learning models. The combination of feature scaling, data imputation, and advanced models like neural networks allows for accurate predictions of air quality metrics.
 
-The **Neural Network Model** outperformed the **Decision Tree Regressor** in terms of accuracy, but both models provided valuable insights into feature importance. You can further experiment with different models, tune hyperparameters, or use more advanced techniques like cross-validation to improve the model's performance.
