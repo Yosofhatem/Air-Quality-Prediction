@@ -379,9 +379,11 @@ for idx, layer in enumerate(model.layers):
         except ValueError:
             print(f"Layer {layer.name} does not have weights or biases.")
 ```
+
 **Conclusion from visualization of Weights and Biases:**
 
 The histograms of weights and biases show their distribution across the model layers. This helps in understanding how the model assigns importance to different parameters.
+
 ---
 
 ## Hyperparameter Tuning
