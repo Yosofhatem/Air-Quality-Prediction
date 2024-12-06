@@ -1,6 +1,6 @@
 # Air Quality Prediction using Neural Networks
 
-![Air Quality]([https://pics.filmaffinity.com/video_games_the_movie-784311979-large.jpg](https://grist.org/wp-content/uploads/2020/09/GettyImages-1228444095.jpg))
+![Air Quality](https://grist.org/wp-content/uploads/2020/09/GettyImages-1228444095.jpg)
 
 This project is focused on predicting air quality based on environmental factors using a neural network model. The goal is to estimate pollution levels **CO(GT)** from various sensors and environmental parameters such as temperature, humidity, and other pollutants.
 
