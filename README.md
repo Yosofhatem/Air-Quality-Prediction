@@ -1,0 +1,124 @@
+
+# Air Quality Prediction Model
+
+This project focuses on predicting air quality using various sensor readings. The dataset consists of sensor data collected at various times, including measurements of CO, NMHC, NOx, NO2, and several other parameters related to air quality. The goal is to build a predictive model to estimate the air quality at different points in time based on these sensor readings.
+
+## Dataset Description
+
+The dataset used in this project consists of sensor readings for various pollutants. The columns in the dataset include:
+- **Date**: The date of the observation
+- **Time**: The time at which the observation was recorded
+- **CO(GT)**: Measurement of Carbon Monoxide (CO) levels
+- **PT08.S1(CO)**: Sensor reading for CO levels
+- **NMHC(GT)**: Measurement for non-methane hydrocarbons (NMHC)
+- **NOx(GT)**: Nitrogen Oxides (NOx) levels
+- **NO2(GT)**: Nitrogen Dioxide (NO2) levels
+- **PT08.S2(NMHC)**: Sensor reading for NMHC levels
+- **Temperature (T)**: Temperature during the observation
+- **Relative Humidity (RH)**: Relative humidity during the observation
+- **Absolute Humidity (AH)**: Absolute humidity during the observation
+
+The dataset includes missing values, especially in some columns like `NMHC(GT)`, which requires handling before model training.
+
+## Data Preprocessing
+
+### 1. **Loading the Data**
+
+The dataset is loaded from a CSV file using pandas `read_csv()` function. The data is delimited by semicolons (`;`).
+
+```python
+df = pd.read_csv('air_quality_data.csv', delimiter=';')
+```
+
+### 2. **Handling Missing Values**
+
+After loading the dataset, we performed a check for missing values using `.isnull().sum()`. The dataset contains missing values for several columns, including `CO(GT)`, `PT08.S1(CO)`, and others. These missing values were handled, possibly through imputation, such as K-Nearest Neighbors (KNN) imputation or other methods (the notebook doesn't specify which method is used, but KNN imputation was imported for use).
+
+```python
+df.isnull().sum()
+```
+
+### 3. **Exploratory Data Analysis (EDA)**
+
+We performed a summary analysis using `.describe()` to understand the distribution of the data. This helps identify outliers and the general range of values across different features.
+
+```python
+df.describe().T
+```
+
+### 4. **Feature Scaling**
+
+Since the dataset involves sensor readings with different scales (e.g., CO vs. NOx), feature scaling is an essential step to normalize the data. This ensures that all features contribute equally to the model’s performance, especially for models sensitive to scale, such as neural networks.
+
+```python
+scaler = StandardScaler()
+df_scaled = scaler.fit_transform(df)
+```
+
+## Model Selection
+
+### 1. **Decision Tree Regressor**
+
+A Decision Tree Regressor was chosen as one of the models for this task. It’s a popular choice for regression tasks, particularly when dealing with tabular data with non-linear relationships.
+
+```python
+model = DecisionTreeRegressor()
+model.fit(X_train, y_train)
+```
+
+### 2. **Neural Network Model**
+
+We also experimented with a Neural Network model using TensorFlow’s Keras API. The architecture consists of:
+- **Input Layer**: The input layer corresponds to the features (scaled data).
+- **Dense Layers**: Multiple dense layers are used for learning non-linear patterns.
+- **Dropout**: Dropout layers are used for regularization to prevent overfitting.
+
+```python
+model = Sequential([
+    Dense(64, input_dim=X_train.shape[1], activation='relu'),
+    Dropout(0.2),
+    Dense(32, activation='relu'),
+    Dense(1)
+])
+```
+
+### 3. **Model Compilation & Training**
+
+For the neural network, we used the Adam optimizer and Mean Squared Error as the loss function for regression.
+
+```python
+model.compile(optimizer=Adam(), loss='mse')
+model.fit(X_train, y_train, epochs=50, batch_size=32)
+```
+
+### 4. **Early Stopping**
+
+To avoid overfitting, we employed early stopping during training. This stops the training process if the validation loss does not improve after a certain number of epochs.
+
+```python
+early_stopping = EarlyStopping(monitor='val_loss', patience=10)
+```
+
+## Model Evaluation
+
+After training the models, we evaluated their performance using the following metrics:
+- **Mean Squared Error (MSE)**: Measures the average of the squares of the errors.
+- **Mean Absolute Error (MAE)**: Measures the average of the absolute errors.
+- **R-Squared (R²)**: Indicates how well the model explains the variance in the data.
+
+```python
+mse = mean_squared_error(y_test, predictions)
+mae = mean_absolute_error(y_test, predictions)
+r2 = r2_score(y_test, predictions)
+```
+
+## Results
+
+The model performance was evaluated on the test set, and the results showed that the neural network model outperformed the Decision Tree in terms of lower MSE and higher R². However, the exact accuracy and model performance metrics would need to be adjusted depending on the dataset size and feature selection.
+
+## Conclusion
+
+This project demonstrates how to predict air quality based on sensor readings using machine learning models. The combination of feature scaling, data imputation, and advanced models like neural networks allows for accurate predictions of air quality metrics.
+
+You can further experiment with different models, tune hyperparameters, or use more advanced techniques like cross-validation to improve the model's performance.
+
